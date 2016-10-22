@@ -35,7 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // Global constants
     window.APP_NAME = 'Bazdara';
     window.BASE_URL = '/';
-    window.COOKIE_PREFIX = '/pwa';
+    window.COOKIE_PREFIX = '/';
     window.ENV = 'dev'; // or 'prod'
     window.DEBUG_MODE = window.ENV !== 'prod';
     window.GA_ENABLED = true; // Google Analytics
@@ -50,10 +50,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       // Creates the tracker.
       ga('create', {
-        trackingId: window.ENV === 'prod' ? 'UA-XXXX-Y' : 'UA-XXXX-Y',
+        trackingId: window.ENV === 'prod' ? 'UA-68400284-1' : 'UA-68400284-1',
         cookieDomain: 'auto',
-        cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/pwa' : null,
-        siteSpeedSampleRate: 10 // 10% of users.
+        cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/' : null,
+        siteSpeedSampleRate: 100 // 10% of users.
       });
     }
 

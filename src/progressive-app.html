@@ -283,6 +283,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         } else {
           this.page = 'home';
         }
+
+        ga('send', 'pageview', '/' + page);
       },
 
       // Set CSS custom properties using shim that Polymer provides
