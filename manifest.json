@@ -30,5 +30,5 @@
     "background_color": "#1e88e5",
     "theme_color": "#1e88e5",
     "display": "fullscreen",
-    "start_url": "/trenutno?utm_source=App&utm_medium=WebApp&utm_campaign=App"
+    "start_url": "/?utm_source=App&utm_medium=WebApp&utm_campaign=App"
 }
