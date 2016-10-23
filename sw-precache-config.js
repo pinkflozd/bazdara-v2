@@ -9,15 +9,16 @@ module.exports = {
      While serving completely different sites from the same URL is not likely to be an issue
      in a production environment, it avoids cache-conflicts when testing various projects
      all served off of http://localhost. */
-  cacheId: 'progressive-app-v1',
+  cacheId: 'bazdara-app-v1',
 
   /* Array of one or more string patterns that will be passed in to glob.
      All files matching these globs will be automatically precached by the generated service worker. */
   staticFileGlobs: [
     '/index.html',
     '/manifest.json',
+    '/spinner.css',
     '/bower_components/webcomponentsjs/webcomponents-lite.min.js',
-    '/data/locales/**/*.json',
+    '/data/**/*.*',
     '/fonts/**/*.*',
     '/images/**/*.*'
   ],
@@ -37,29 +38,15 @@ module.exports = {
     urlPattern: /https?:\/\/((www|ssl)\.)?google-analytics\.com\/analytics.js/,
     handler: 'networkFirst'
   }, {
-    /* Google Fonts
-    urlPattern: /https?:\/\/fonts.+/,
-    handler: 'cacheFirst'
-  }, { */
-    /* Examples */
-    urlPattern: /^https:\/\/example\.com\/api/,
+    urlPattern: /^https:\/\/x\.bazdara\.com/,
     handler: 'networkFirst'
   }, {
-    urlPattern: /\/data\/images\/.*/,
+    urlPattern: /\/data\/.*/,
     handler: 'cacheFirst',
     options: {
       cache: {
         maxEntries: 200,
-        name: 'images-cache'
-      }
-    }
-  }, {
-    urlPattern: /\/data\/articles\/.*json/,
-    handler: 'fastest',
-    options: {
-      cache: {
-        maxEntries: 100,
-        name: 'articles-cache'
+        name: 'data-cache'
       }
     }
   }]
