@@ -14,7 +14,9 @@
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.3.x",
     "iron-form": "PolymerElements/iron-form#^1.0.x",
     "iron-icon": "PolymerElements/iron-icon#^1.0.x",
+    "iron-image": "PolymerElements/iron-image#^1.0.x",
     "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^1.0.x",
+    "iron-iconset": "PolymerElements/iron-iconset#^1.0.x",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.x",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.x",
     "iron-pages": "PolymerElements/iron-pages#^1.0.x",
@@ -30,9 +32,11 @@
     "paper-styles": "PolymerElements/paper-styles#^1.1.x",
     "paper-toast": "PolymerElements/paper-toast#^1.3.x",
     "paper-tooltip": "PolymerElements/paper-tooltip#^1.1.x",
+    "paper-card": "PolymerElements/paper-card#^1.0.x",
     "polymer": "Polymer/polymer#^1.6.0",
     "polymerfire": "firebase/polymerfire#^0.9.4",
-    "promise-polyfill": "StartPolymer/empty-elements#^1.1.x"
+    "promise-polyfill": "StartPolymer/empty-elements#^1.1.x",
+    "highcharts": "^5.0.0"
   },
   "devDependencies": {
     "web-component-tester": "4.2.x"
