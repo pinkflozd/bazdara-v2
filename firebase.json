@@ -14,6 +14,19 @@
         "rewrites": [{
             "source": "**",
             "destination": "/index.html"
+        }],
+        "redirects": [{
+            "source": "/trenutno",
+            "destination": "/",
+            "type": 301
+        },{
+            "source": "/plimovanje",
+            "destination": "/",
+            "type": 301
+        },{
+            "source": "/napoved",
+            "destination": "/",
+            "type": 301
         }]
     }
 }
