@@ -1,14 +1,19 @@
 {
-  "database": {
-    "rules": "database.rules.json"
-  },
-  "hosting": {
-    "public": "build/bundled",
-    "headers": [
-      {
-        "source": "/",
-        "headers": [{"key": "Link", "value": "</src/progressive-app.html>; rel=preload; as=document,</src/app-pages/app-page-home/app-page-home.html>; rel=preload; as=document,</src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document"}]
-      }
-    ]
-  }
+    "database": {
+        "rules": "database.rules.json"
+    },
+    "hosting": {
+        "public": "build/bundled",
+        "headers": [{
+            "source": "/",
+            "headers": [{
+                "key": "Link",
+                "value": "</src/progressive-app.html>; rel=preload; as=document,</src/app-pages/app-page-home/app-page-home.html>; rel=preload; as=document,</src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document"
+            }]
+        }],
+        "rewrites": [{
+            "source": "**",
+            "destination": "/index.html"
+        }]
+    }
 }

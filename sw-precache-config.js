@@ -29,7 +29,7 @@ module.exports = {
 
   /* Whitelist includes all files except those that end in .html (for HTML imports) and
      ones with /data/ in the path (for dynamically-loaded data). */
-  navigateFallbackWhitelist: [/^(?!.*\.html$|\/data\/).*/],
+  navigateFallbackWhitelist: [/^(?!.*\.html$|\/data\/|\/__\/).*/],
 
   /* Runtime Caching for Dynamic Content
      https://github.com/GoogleChrome/sw-precache/blob/master/GettingStarted.md#runtime-caching-for-dynamic-content */
