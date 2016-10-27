@@ -10,9 +10,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 <link rel="import" href="app-icons-home.html">
+
+<link rel="import" href="../app-pages-imports/jquery-import.html">
+<link rel="import" href="../app-pages-imports/highcharts-import.html">
 
 <dom-module id="app-page-home">
 
@@ -24,19 +32,91 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
-      /* Tablet wide */
-      @media screen and (min-width: 600px) {
-
+      .gauge {
+        height: 150px;
+        width: 250px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-      /* Laptop wide */
-      @media screen and (min-width: 960px) {
-
+      .vreme_zdaj1 {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-      /* Large wide */
-      @media screen and (min-width: 1600px) {
+      .vreme_zdaj2 {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: -128px;
+      }
 
+      .gauge {
+        height: 150px;
+        width: 250px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      @media (min-width: 544px) and (max-width: 559px) {
+        .gauge {
+          margin-left: -25px;
+        }
+      }
+
+      @media (min-width: 560px) and (max-width: 599px) {
+        .gauge {
+          margin-left: -25px;
+        }
+      }
+
+      @media (min-width: 600px) and (max-width: 767px) {
+        .gauge {
+          margin-left: -2vw;
+        }
+      }
+
+      .masonry {
+          -moz-column-gap: 15px;
+          -webkit-column-gap: 15px;
+          column-gap: 15px;
+          width: 100%;
+      }
+
+      .item {
+          display: inline-block;
+          width: 100%;
+      }
+
+      paper-material {
+        margin-top: 10px
+      }
+
+      @media only screen and (min-width: 600px) {
+          .masonry {
+              -moz-column-count: 2;
+              -webkit-column-count: 2;
+              column-count: 2;
+          }
+      }
+
+      @media only screen and (min-width: 960px) {
+          .masonry {
+              -moz-column-count: 3;
+              -webkit-column-count: 3;
+              column-count: 3;
+          }
+      }
+
+      @media only screen and (min-width: 1600px) {
+          .masonry {
+              -moz-column-count: 4;
+              -webkit-column-count: 4;
+              column-count: 4;
+          }
       }
 
       /* Landscape phone height */
@@ -56,53 +136,186 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <div class="Page-container" id="section1">
-      <paper-material class="Page-card" elevation="2">
+      <iron-ajax id="ajax" auto url="https://x.bazdara.com/trenutno.php" handle-as="json" on-response="handleResponse" loading="{{loading}}"></iron-ajax>
 
-        <h1>{{localize('home')}}</h1>
+      <iron-media-query query="(max-width: 767px)" query-matches="{{mobile}}"></iron-media-query>
 
-        <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+      <div class="Page-container Page-container--center" id="section1">
 
-      </paper-material>
+        <div class="masonry">
+
+          <div class="item">
+            <paper-material class="Page-card" elevation="2">
+              1
+            </paper-material>
+          </div>
+          <div class="item">
+            <paper-material class="Page-card" elevation="2">
+              2
+            </paper-material>
+          </div>
+          <div class="item">
+            <paper-material class="Page-card" elevation="2">
+              3
+            </paper-material>
+          </div>
+          <div class="item">
+            <paper-material class="Page-card" elevation="2">
+              4
+            </paper-material>
+          </div>
+          <div class="item">
+            <paper-material class="Page-card" elevation="2">
+              5
+            </paper-material>
+          </div>
+          <div class="item">
+            <paper-material class="Page-card" elevation="2">
+              6
+            </paper-material>
+          </div>
+          <div class="item">
+            <paper-material class="Page-card" elevation="2">
+              7
+            </paper-material>
+          </div>
+
+        </div>
+
+      </div>
+
+        <h2 class="page-title"><i18n-msg msgid="trenutno_title">Trenutne razmere Piran</i18n-msg></h2>
+
+        <div class="card-columns">
+          <div class="card">
+            <div class="card-block text-xs-center">
+              <h4 class="card-title"><span class="live-smer-wi"></span> <span class="live-veter">[[trenutno.veter.ime]]</span> (<span id="liveSmer">[[trenutno.veter.smer]]</span>°)</h4>
+              <h6 class="card-subtitle text-muted"><i18n-msg msgid="trenutno_subtitle">Podatki v živo iz boje Vide</i18n-msg></h6>
+            </div>
+            <div class="text-xs-center">
+              <iron-image sizing="cover" src$="[[trenutno.vreme.zdaj_slika]]" style="width:128px; height:128px;" preload fade class="vreme_zdaj1"></iron-image>
+              <iron-image sizing="cover" src$="[[trenutno.vreme.zdaj_pojav]]" style="width:128px; height:128px;" preload fade class="vreme_zdaj2"></iron-image>
+            </div>
+            <div class="card-block">
+              <div class="card-text text-xs-center">
+                <div class="display-2"><span id="liveTemperatura">[[trenutno.temp.zdaj]]</span>°<span class="display-3">C</span>
+                </div>
+                [[trenutno.vreme.zdaj]]
+                <br> [[trenutno.veter.moc]] <b>[[trenutno.veter.beaufort]]</b>
+                <br>
+                <span class="live-hitrost">[[trenutno.veter.zdaj]]</span>m/s (<span class="live-hitrost-km">[[trenutno.veter.zdaj_km]]</span>km/h)
+                <br>
+                <i18n-msg msgid="trenutno_vzhod">Sončni vzhod ob</i18n-msg> <strong>[[trenutno.soncni.vzhod]]</strong>
+                <br>
+                <i18n-msg msgid="trenutno_zahod">zahod ob</i18n-msg> <strong>[[trenutno.soncni.zahod]]</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-block card-inverse text-xs-center" style="background-color:#1e88e5">
+            <blockquote class="card-blockquote blockquote">
+              <p>[[trenutno.pregovor]]</p>
+              <footer>
+                <small>
+                  <cite title="Source Title"><i18n-msg msgid="trenutno_pregovor_1">Piranski</i18n-msg></cite> <i18n-msg msgid="trenutno_pregovor_2">pregovor dneva</i18n-msg>
+                </small>
+              </footer>
+            </blockquote>
+          </div>
+
+          <template is="dom-if" if="[[!mobile]]">
+            <ins class="adsbygoogle card" style="display:inline-block;width:100%;height:100px" data-ad-client="ca-pub-8065525462923936" data-ad-slot="5392821055"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </template>
+
+  <template is="dom-if" if="[[mobile]]">
+            <ins class="adsbygoogle card" style="display:inline-block;width:100%" data-ad-client="ca-pub-8065525462923936" data-ad-slot="6171550258" data-ad-format="auto"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </template>
+
+  <div class="card text-xs-center">
+    <div class="card-block">
+      <h4 class="card-title"><i18n-msg msgid="trenutno_veter_naslov">Hitrost vetra</i18n-msg></h4>
+      <div id="containerVeter" class="gauge"></div>
+      <div class="text-xs-center" style="margin-top:-70px">
+        <span id="live-hitrost2" class="display-4">[[trenutno.veter.zdaj]]</span>
+        <br>
+        <div class="text-muted" style="margin-top:-15px">m/s</div>
+      </div>
+      <p class="card-text">
+        <i18n-msg msgid="trenutno_veter_sunek">Sunki vetra</i18n-msg>: <b>[[trenutno.veter.sunek.zdaj]]</b> m/s ([[trenutno.veter.sunek.zdaj_km]]km/h)
+        <br />
+        <i18n-msg msgid="trenutno_veter_hitrost">Hitrost vetra</i18n-msg>: <b><span class="live-hitrost">[[trenutno.veter.zdaj]]</span>m/s</b> (<span class="live-hitrost-km">[[trenutno.veter.zdaj_km]]</span>km/h)
+        <br />
+        <i18n-msg msgid="trenutno_veter_rekord">Rekord</i18n-msg>: [[trenutno.veter.sunek.max]] m/s <b>([[trenutno.veter.sunek.max_km]]km/h)</b>
+      </p>
     </div>
+  </div>
+  <div class="card text-xs-center">
+    <div class="card-block">
+      <h4 class="card-title"><i18n-msg msgid="trenutno_val_naslov">Višina Vala</i18n-msg></h4>
+      <div id="containerVal" class="gauge"></div>
+      <div class="text-xs-center" style="margin-top:-70px">
+        <span id="live-val2" class="display-4">[[trenutno.val.zdaj]]</span>
+        <br>
+        <div class="text-muted" style="margin-top:-15px">m</div>
+      </div>
+      <p class="card-text">
+        <i18n-msg msgid="trenutno_val_max">Max višina</i18n-msg>: <b>[[trenutno.val.vrh.zdaj]]</b> m
+        <br />
+        <i18n-msg msgid="trenutno_val_norm">Norm višina</i18n-msg>: <b><span class="live-val">[[trenutno.val.zdaj]]</span></b> m
+        <br />
+        <i18n-msg msgid="trenutno_val_rekord">Rekord</i18n-msg>: <b>[[trenutno.val.vrh.max]] m</b>
+      </p>
+    </div>
+  </div>
+  <div class="card text-xs-center">
+    <div class="card-block">
+      <h4 class="card-title"><i18n-msg msgid="trenutno_temp_naslov">Temperatura zraka</i18n-msg></h4>
+      <div id="containerTemperatura" class="gauge"></div>
+      <div class="text-xs-center" style="margin-top:-70px">
+        <span id="liveTemp" class="display-4">[[trenutno.temp.zdaj]]</span>
+        <br>
+        <div class="text-muted" style="margin-top:-15px">°C</div>
+      </div>
+      <p class="card-text">
+        <i18n-msg msgid="trenutno_temp">Temperatura</i18n-msg>: <b><span id="liveTemp2">[[trenutno.temp.zdaj]]</span></b> °C
+        <br>
+        <i18n-msg msgid="trenutno_vlaga">Vlažnost</i18n-msg>: <b>[[trenutno.vlaga]]</b> %
+        <br />
+        <i18n-msg msgid="trenutno_temp_rekord">Rekord</i18n-msg>: <b>[[trenutno.temp.max]]</b> °C
+      </p>
+    </div>
+  </div>
+  <div class="card text-xs-center">
+    <div class="card-block">
+      <h4 class="card-title"><i18n-msg msgid="trenutno_morje_naslov">Temperatura morja</i18n-msg></h4>
+      <div id="containerMorje" class="gauge"></div>
+      <div class="text-xs-center" style="margin-top:-70px">
+        <span id="live-morje2" class="display-4">[[trenutno.morje.vrh.zdaj]]</span>
+        <br>
+        <div class="text-muted" style="margin-top:-15px">°C</div>
+      </div>
+      <p class="card-text">
+        <i18n-msg msgid="trenutno_morje_2m">Globina 2 m</i18n-msg>: <b><span class="live-morje">[[trenutno.morje.vrh.zdaj]]</span></b> °C
+        <br />
+        <i18n-msg msgid="trenutno_morje_20m">Globina 23 m</i18n-msg>: <b>[[trenutno.morje.dno.zdaj]]</b> °C
+        <br />
+        <i18n-msg msgid="trenutno_morje_rekord">Rekord</i18n-msg>: <b>[[trenutno.morje.vrh.max]] °C</b>
+      </p>
+    </div>
+  </div>
+  </div>
+
+
 
   </template>
 
   <script>
-
     Polymer({
 
       is: 'app-page-home',
@@ -130,6 +343,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'app-resources-loaded': '_onLocalesLoaded'
       },
 
+      observers: [
+        '_zdajData(trenutno)'
+      ],
+
       _activeChanged: function() {
         if (this.active) {
           if (this._isLocalesLoaded) {
@@ -146,10 +363,386 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // TODO: Resolve slow localize data binding in Firefox
         //this.style.display = 'block';
         this.set('app.pageTitle', this.localize('home'));
+      },
+
+      handleResponse: function(trenutno) {
+        this.trenutno = trenutno.detail.response;
+      },
+
+      _zdajData: function(trenutno) {
+
+        var ajax = this.$$('iron-ajax');
+        setInterval(function() {
+          ajax.generateRequest()
+        }, 900000);
+
+        var gaugeOptions = {
+
+          chart: {
+            type: 'solidgauge',
+            backgroundColor: null,
+            style: {
+              fontFamily: 'Roboto, sans-serif'
+            }
+          },
+
+          title: null,
+          credits: {
+            enabled: false
+          },
+          exporting: {
+            enabled: false
+          },
+
+          pane: {
+            center: ['50%', '75%'],
+            size: '150%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+              innerRadius: '60%',
+              outerRadius: '100%',
+              shape: 'arc'
+            }
+          },
+
+          tooltip: {
+            enabled: false
+          },
+
+          // the value axis
+          yAxis: {
+            stops: [
+              [0.1, '#55BF3B'], // green
+              [0.4, '#DDDF0D'], // yellow
+              [0.7, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+            labels: {
+              enabled: false
+            },
+          },
+
+          plotOptions: {
+            solidgauge: {
+              dataLabels: {
+                y: 5,
+                borderWidth: 0,
+                useHTML: true
+              }
+            }
+          }
+        };
+
+        var gaugeOptions2 = {
+
+          chart: {
+            type: 'solidgauge',
+            backgroundColor: null,
+            style: {
+              fontFamily: 'Roboto, sans-serif'
+            }
+          },
+
+          title: null,
+          credits: {
+            enabled: false
+          },
+          exporting: {
+            enabled: false
+          },
+
+          pane: {
+            center: ['50%', '75%'],
+            size: '150%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+              innerRadius: '60%',
+              outerRadius: '100%',
+              shape: 'arc'
+            }
+          },
+
+          tooltip: {
+            enabled: false
+          },
+
+          yAxis: {
+            stops: [
+              [0.1, '#C6E2FF'],
+              [0.4, '#DDDF0D'],
+              [0.7, '#DF5353']
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+            labels: {
+              enabled: false
+            },
+          },
+
+          plotOptions: {
+            solidgauge: {
+              dataLabels: {
+                y: 5,
+                borderWidth: 0,
+                useHTML: true
+              }
+            }
+          }
+        };
+
+        new Highcharts.Chart(Highcharts.merge(gaugeOptions2, {
+          chart: {
+            renderTo: 'containerTemperatura'
+          },
+
+          yAxis: {
+            min: 2.5,
+            max: 35,
+          },
+
+          series: [{
+            name: 'Temperatura zraka',
+            data: [15],
+            dataLabels: {
+              enabled: false
+            },
+            tooltip: {
+              enabled: false
+            }
+          }]
+
+        }));
+
+        new Highcharts.Chart(Highcharts.merge(gaugeOptions, {
+          chart: {
+            renderTo: 'containerVeter'
+          },
+
+          yAxis: {
+            min: 0,
+            max: 22,
+          },
+
+          series: [{
+            name: 'Hitrost Vetra',
+            data: [5],
+            dataLabels: {
+              enabled: false
+            },
+            tooltip: {
+              enabled: false
+            }
+          }]
+
+        }));
+
+        new Highcharts.Chart(Highcharts.merge(gaugeOptions2, {
+          chart: {
+            renderTo: 'containerMorje'
+          },
+
+          yAxis: {
+            min: 7,
+            max: 32,
+          },
+
+          series: [{
+            name: 'Temperatura morja',
+            data: [20],
+            dataLabels: {
+              enabled: false
+            },
+            tooltip: {
+              enabled: false
+            }
+          }]
+
+        }));
+
+        new Highcharts.Chart(Highcharts.merge(gaugeOptions2, {
+          chart: {
+            renderTo: 'containerVal'
+          },
+
+          yAxis: {
+            min: 0,
+            max: 2,
+          },
+
+          series: [{
+            name: 'Valovanje',
+            data: [0.2],
+            dataLabels: {
+              enabled: false
+            },
+            tooltip: {
+              enabled: false
+            }
+          }]
+
+        }));
+
+
+        // Bring life to the dials
+        setInterval(function() {
+
+          var request = new XMLHttpRequest();
+          request.open('GET', 'https://www.bazdara.com/boja/live.json', true);
+
+          request.onload = function() {
+            if (this.status >= 200 && this.status < 400) {
+              // Success!
+              var data = JSON.parse(this.response);
+
+              $.each(data, function(key, val) {
+
+                var chart = $('#containerTemperatura').highcharts(),
+                  point,
+                  newVal,
+                  inc;
+                if (chart) {
+                  if (key == 'temperatureAir') {
+                    newVal = val;
+                    var point = chart.series[0].points[0];
+                    point.update(newVal);
+                  }
+                }
+
+                var chart = $('#containerVeter').highcharts();
+                if (chart) {
+                  if (key == 'currentWindSpeed') {
+                    newVal = val;
+                    var point = chart.series[0].points[0];
+                    point.update(newVal);
+                  }
+                }
+
+                var chart = $('#containerMorje').highcharts();
+                if (chart) {
+                  if (key == 'temperatureSeaSurface') {
+                    newVal = val;
+                    var point = chart.series[0].points[0];
+                    point.update(newVal);
+                  }
+                }
+
+                var chart = $('#containerVal').highcharts();
+                if (chart) {
+                  if (key == 'wavesHeight') {
+                    newVal = val;
+                    var point = chart.series[0].points[0];
+                    point.update(newVal);
+                  }
+                }
+
+                if (key == 'temperatureAir') {
+                  $('#liveTemperatura').empty();
+                  $('#liveTemperatura').append(data['temperatureAir']);
+
+                  $('#liveTemp').empty();
+                  $('#liveTemp').append(data['temperatureAir']);
+
+                  $('#liveTemp2').empty();
+                  $('#liveTemp2').append(data['temperatureAir']);
+                }
+                if (key == 'currentWindDirection') {
+                  $('#liveSmer').empty();
+                  $('#liveSmer').append(data['currentWindDirection']);
+
+                }
+                if (key == 'meanWindBeaufort') {
+                  $('#live-bufor').empty();
+                  $('#live-bufor').append(data['meanWindBeaufort']);
+                }
+                if (key == 'currentWindSpeed') {
+                  $('.live-hitrost').empty();
+                  $('.live-hitrost').append(data['currentWindSpeed']);
+
+                  $('#live-hitrost2').empty();
+                  $('#live-hitrost2').append(data['currentWindSpeed']);
+                }
+                if (key == 'currentWindSpeed') {
+                  $('.live-hitrost-km').empty();
+                  $('.live-hitrost-km').append((data['currentWindSpeed'] * 3.6).toFixed(1));
+                }
+                if (key == 'wavesHeight') {
+                  $('.live-val').empty();
+                  $('.live-val').append(data['wavesHeight']);
+
+                  $('#live-val2').empty();
+                  $('#live-val2').append(data['wavesHeight']);
+                }
+                if (key == 'wavesHeight') {
+                  $('.live-morje').empty();
+                  $('.live-morje').append(data['temperatureSeaSurface']);
+
+                  $('#live-morje2').empty();
+                  $('#live-morje2').append(data['temperatureSeaSurface']);
+                }
+                if (key == 'currentWindDirection') {
+                  if (data['currentWindDirection'] >= "340.1" && data['currentWindDirection'] <= "360") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Tramontana");
+                  } else if (data['currentWindDirection'] >= "0" && data['currentWindDirection'] <= "10") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Tramontana");
+                  } else if (data['currentWindDirection'] >= "10.1" && data['currentWindDirection'] <= "30") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Burin");
+                  } else if (data['currentWindDirection'] >= "30.1" && data['currentWindDirection'] <= "100") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Burja");
+                  } else if (data['currentWindDirection'] >= "100.1" && data['currentWindDirection'] <= "120") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Levant");
+                  } else if (data['currentWindDirection'] >= "120.1" && data['currentWindDirection'] <= "160") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Jugo");
+                  } else if (data['currentWindDirection'] >= "160.1" && data['currentWindDirection'] <= "200") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Oštro");
+                  } else if (data['currentWindDirection'] >= "200.1" && data['currentWindDirection'] <= "240") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Lebič");
+                  } else if (data['currentWindDirection'] >= "240.1" && data['currentWindDirection'] <= "260") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Garbin");
+                  } else if (data['currentWindDirection'] >= "260.1" && data['currentWindDirection'] <= "290") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Ponent");
+                  } else if (data['currentWindDirection'] >= "290.1" && data['currentWindDirection'] <= "340") {
+                    $('.live-veter').empty();
+                    $('.live-veter').append("Maestral");
+                  }
+                }
+
+              });
+            } else {
+              // We reached our target server, but it returned an error
+
+            }
+          };
+
+          request.onerror = function() {
+            // There was a connection error of some sort
+          };
+
+          request.send();
+
+        }, 3100);
+
       }
 
     });
-
   </script>
 
 </dom-module>

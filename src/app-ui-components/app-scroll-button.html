@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 
 <dom-module id="app-scroll-button">
 
@@ -96,9 +96,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
+    <iron-media-query query="(max-height: 520px)" query-matches="{{mobile}}"></iron-media-query>
+
     <paper-button class="Button">
       <div class="Button-arrow"></div>
-      <div class="Button-text"><content></content></div>
+      <template is="dom-if" if="[[!mobile]]">
+        <div class="Button-text"><content></content></div>
+      </template>
     </paper-button>
 
   </template>

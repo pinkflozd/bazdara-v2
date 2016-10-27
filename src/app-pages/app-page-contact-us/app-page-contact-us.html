@@ -48,14 +48,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       /* Tablet wide */
       @media screen and (min-width: 600px) {
         .Form {
-          width: 50%;
+          max-width: 100%;
         }
       }
 
     </style>
 
     <div class="Page-container Page-container--center Page-container--fullHeight">
-      <paper-material class="Page-card Page-card--expand" elevation="3">
+      <paper-material class="Page-card Page-card--small" elevation="3">
 
         <h1 class="Page-title" hidden$="{{!app.isTabletWide}}">{{localize('contact-us')}}</h1>
 

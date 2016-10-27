@@ -1,0 +1,207 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
+
+<link rel="import" href="../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="../app-themes/current-theme/shared-styles/components-shared-styles.html">
+
+<link rel="import" href="app-icons-weather.html">
+
+<dom-module id="app-shell-header">
+
+  <template>
+
+    <style include="components-shared-styles">
+      :host {
+        display: block;
+      }
+      paper-card {
+        max-width: 90vw;
+        min-width: 280px;
+        color: var(--primary-text-color);
+        text-shadow: 0px;
+      }
+      .content {
+        flex-grow: 1;
+      }
+      .vreme_zdaj {
+        position: relative;
+      }
+      .vreme_zdaj1,
+      .vreme_zdaj2 {
+        position: absolute;
+        top: 0;
+        left: -5px;
+      }
+      .weather-header {
+        @apply(--paper-font-headline);
+        color: var(--primary-text-color);
+      }
+      .bazdara-veter {
+        float: right;
+        font-size: 15px;
+        vertical-align: middle;
+        color: var(--disabled-text-color);
+      }
+      .display-2 {
+        font-size: 3.0rem;
+        font-weight: 300;
+        color: var(--secondary-text-color);
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+      .display-3 {
+        font-size: 2.0rem;
+        font-weight: 300;
+        color: var(--disabled-text-color);
+      }
+      .card-content {
+        display: flex;
+        color: var(--primary-text-color);
+      }
+      iron-image {
+        --iron-image-width: 100%;
+        --iron-image-placeholder: {
+          width: 100%
+        }
+      }
+      paper-spinner {
+        position: absolute;
+        top: calc(50% - 50px);
+        left: calc(50% - 50px);
+        width: 100px;
+        height: 100px;
+        --paper-spinner-stroke-width: 8px;
+      }
+      .fullscreen {
+        margin-top: -48px;
+        margin-right: 5px;
+        float: right;
+      }
+      fullscreen-icon-button {
+        color: var(--text-primary-color);
+        --paper-icon-button-ink-color: var(--text-primary-color);
+        border-radius: 50%;
+      }
+    </style>
+
+    <iron-media-query query="(orientation: landscape) and (max-height: 450px)" query-matches="{{landscape}}"></iron-media-query>
+
+    <iron-ajax id="ajax" auto url="https://x.bazdara.com/trenutno.php" handle-as="json" on-response="handleResponse" loading="{{loading}}"></iron-ajax>
+
+    <fullscreen-api id="fsapi" fullscreen-available="{{fullscreenAvailable}}"></fullscreen-api>
+
+    <div class="weather">
+
+      <paper-spinner alt="Loading..." active="[[loading]]"></paper-spinner>
+
+      <paper-card elevation="2" hidden="{{loading}}">
+
+        <template is="dom-if" if="[[!landscape]]">
+          <div style="max-width:480px;">
+            <iron-image preload id="spletna2" fade placeholder$="[[trenutno.vreme.zdaj_slika_lq]]" src="https://x.bazdara.com/si_piranpunta_hq.jpg"></iron-image>
+          </div>
+          <div class="full">
+            <fullscreen-icon-button hidden$="[[!fullscreenAvailable]]" target="#spletna2" class="fullscreen" title="fullscreen" tabindex="0" alt="fullscreen"></fullscreen-icon-button>
+          </div>
+        </template>
+
+        <div class="card-content">
+          <div class="content vreme_zdaj">
+            <iron-icon icon$="[[trenutno.vreme.zdaj_slika_new]]:0" class="vreme_zdaj1"></iron-icon>
+            <iron-icon icon$="[[trenutno.vreme.zdaj_pojav_new]]:0" class="vreme_zdaj2"></iron-icon>
+          </div>
+          <div class="content" style="text-align:right">
+            <div>
+              [[trenutno.vreme.zdaj]]
+            </div>
+            <div class="display-2"><span id="liveTemperatura">[[trenutno.temp.zdaj]]</span><span class="display-3">°C</span>
+            </div>
+            <div>
+              <span class="live-veter">[[trenutno.veter.ime]]</span> (<span id="liveSmer">[[trenutno.veter.smer]]</span>°)
+            </div>
+            <div>
+              [[trenutno.veter.moc]] <b>[[trenutno.veter.beaufort]]</b>
+            </div>
+          </div>
+        </div>
+
+      </paper-card>
+
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'app-shell-header',
+
+      properties: {
+        active: {
+          type: Boolean,
+          value: false,
+          observer: '_activeChanged'
+        },
+
+        loading: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        app: Object,
+
+        _isLocalesLoaded: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      behaviors: [
+        AppBehaviors.AppLocalizeBehavior
+      ],
+
+      listeners: {
+        'app-resources-loaded': '_onLocalesLoaded'
+      },
+
+      observers: [
+        '_zdajData(trenutno)'
+      ],
+
+      _activeChanged: function() {
+        if (this.active) {
+          if (this._isLocalesLoaded) {
+            this.set('app.pageTitle', this.localize('home'));
+          } else {
+            this.loadLocales(this.is);
+          }
+        }
+      },
+
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this._isLocalesLoaded = true;
+      },
+
+      handleResponse: function(trenutno) {
+        this.trenutno = trenutno.detail.response;
+      },
+
+      _zdajData: function(trenutno) {
+        var ajax = this.$$('iron-ajax');
+        setInterval(function() {
+          ajax.generateRequest()
+          var spletna2 = document.getElementById('spletna2');
+          spletna2.src = 'https://x.bazdara.com/si_piranpunta_hq.jpg?rand=' + Math.random();
+        }, 600000);
+      }
+
+    });
+  </script>
+
+</dom-module>

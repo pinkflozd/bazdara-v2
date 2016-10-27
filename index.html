@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <base href="/">
   <meta charset="utf-8">
@@ -10,7 +11,8 @@
 
   <link rel="shortcut icon" sizes="32x32" href="images/icons/bazdara-icon-32.png">
 
-  <meta name="theme-color" content="#2196f3"> <!-- Blue 500 -->
+  <meta name="theme-color" content="#2196f3">
+  <!-- Blue 500 -->
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" sizes="32x32" href="images/icons/bazdara-icon-32.png">
   <link rel="apple-touch-icon" sizes="128x128" href="images/icons/bazdara-icon-128.png">
@@ -47,178 +49,206 @@
   <script src="https://www.google-analytics.com/analytics.js" async></script>
 
   <script>
-  window.Polymer = {
-    dom: 'shady',
-    lazyRegister: true
-  };
-
-  (function() {
-    "use strict";
-
-    // Global constants
-    window.APP_NAME = 'Bazdara';
-    window.BASE_URL = '/';
-    window.COOKIE_PREFIX = '/';
-    window.ENV = 'dev'; // or 'prod'
-    window.DEBUG_MODE = window.ENV !== 'prod';
-    window.GA_ENABLED = true; // Google Analytics
-
-    // Setup Polymer options
-    // Use Polymer's lazy registration feature to speed up initial boot.
-    window.Polymer = window.Polymer || {lazyRegister: true, dom: 'shadow'};
-
-    if (window.GA_ENABLED) {
-      // Initializes the analytics.js command queue.
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-
-      // Creates the tracker.
-      ga('create', {
-        trackingId: window.ENV === 'prod' ? 'UA-68400284-1' : 'UA-68400284-1',
-        cookieDomain: 'auto',
-        cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/' : null,
-        siteSpeedSampleRate: 100 // 100% of users.
-      });
-    }
-
-    // Setup error tracking before anything else runs.
-    window.onerror = function(message, file, lineNumber, columnNumber, error) {
-      // We don't want to trigger any errors inside window.onerror, so wrap in a try/catch.
-      try {
-        // Some browsers don't support error param yet.
-        if (error !== undefined) {
-          message = error.stack;
-        }
-        window.GA_ENABLED && ga('send', 'event', 'error', file + ':' + lineNumber, message);
-      } catch (e) {
-        // no-op
-      }
+    window.Polymer = {
+      dom: 'shady',
+      lazyRegister: true
     };
 
-    /**
-     * @param {string} param URL parameter to look for.
-     * @return {string|undefined} undefined if the URL parameter does not exist.
-     */
-    function getUrlParameter(param) {
-      if (!window.location.search) {
-        return;
-      }
-      var m = new RegExp(param + '=([^&]*)').exec(window.location.search.substring(1));
-      if (!m) {
-        return;
-      }
-      return decodeURIComponent(m[1]);
-    }
+    (function() {
+      "use strict";
 
-    // If ?ignore_browser_check=true is in the URL, the user is coming back from
-    // "upgrade your browser" and we let them proceed.
-    var ignoreCheck = getUrlParameter('ignore_browser_check') == 'true';
-    // Check if browser is supported by web components polyfill.
-    // Feature detection isn't sufficient; webcomponentsjs attempts to polyfill
-    // missing features, but some browsers are known to not work under it.
-    // https://www.polymer-project.org/resources/compatibility.html
-    var supported = ignoreCheck || (function whatBrowserYouBe() {
-      var uaString = navigator.userAgent;
-      // Sorry IE < 11.
-      var msie = /MSIE +([\d\.]+)/.exec(uaString);
-      if (msie && msie[1]) {
-        if (msie[1] === '7.0') {
-          var tridentVersion = /Trident\/(\d.\d)/.exec(uaString);
-          if (tridentVersion && tridentVersion[1]) {
-            return parseInt(tridentVersion[1], 10) >= 6;
-          } else {
-            return false;
-          }
-        } else {
-          return parseInt(msie[1], 10) >= 11;
-        }
-      }
-      // Sorry older Android browser.
-      if (uaString.indexOf('Chrome') === -1 && uaString.indexOf('Android') !== -1) {
-        return !/^Google/.test(navigator.vendor);
-      }
-      // Sorry Opera < 15.
-      if (uaString.indexOf('Opera') !== -1) {
-        return false;
-      }
-      // Everyone else goes through.
-      return true;
-    })();
+      // Global constants
+      window.APP_NAME = 'Bazdara';
+      window.BASE_URL = '/';
+      window.COOKIE_PREFIX = '/';
+      window.ENV = 'dev'; // or 'prod'
+      window.DEBUG_MODE = window.ENV !== 'prod';
+      window.GA_ENABLED = true; // Google Analytics
 
-    if (!supported) {
-      var redirectToUpgradePage = function() {
-        window.location = 'https://browser-update.org/update.html';
+      // Setup Polymer options
+      // Use Polymer's lazy registration feature to speed up initial boot.
+      window.Polymer = window.Polymer || {
+        lazyRegister: true,
+        dom: 'shadow'
       };
-      // Sends a pageview here because this code will run before IOWA.Analytics is initialized.
-      window.GA_ENABLED && ga('send', 'pageview');
-      window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-polymer', navigator.userAgent, {
-        hitCallback: setTimeout(redirectToUpgradePage, 3000)
-      });
-      // Adds a timeout to redirect in the event that analytics.js fails to
-      // load or is blocked by a browser extension.
-      setTimeout(redirectToUpgradePage, 3000);
-    }
 
-    // Get Chrome, Chromium, Opera, Vivaldi version
-    function getChromeVersion () {
-      var raw = navigator.userAgent.match(/Chrome\/([0-9]+)\./);
-      return raw ? parseInt(raw[1], 10) : false;
-    };
-    // Get Firefox version
-    function getFirefoxVersion () {
-      var raw = navigator.userAgent.match(/Firefox\/([0-9]+)\./);
-      return raw ? parseInt(raw[1], 10) : false;
-    };
+      if (window.GA_ENABLED) {
+        // Initializes the analytics.js command queue.
+        window.ga = window.ga || function() {
+          (ga.q = ga.q || []).push(arguments)
+        };
+        ga.l = +new Date;
 
-    var chromeVer = getChromeVersion();
-    var firefoxVer = getFirefoxVersion();
-
-    // Load ES6, Internationalization polyfills if browser does not support it
-    // TODO: Add Fetch polyfill - resolve app routing issue in IE11
-    if (!(chromeVer && chromeVer >= 46 || firefoxVer && firefoxVer >= 40)) {
-      var script = document.createElement('script');
-      //script.async = true;
-      script.src = 'https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,intl';
-      document.head.appendChild(script);
-      window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-es6-intl', navigator.userAgent);
-      window.DEBUG_MODE && console.log('Your browser is out-of-date. Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
-    }
-
-    // Adds User Timing marks for relevant perf events.
-    // These events correspond to the values tracked in analytics.js;
-    // changes made here must be made there as well.
-    var perfEvents = ['HTMLImportsLoaded', 'WebComponentsReady'];
-    if (window.performance && window.performance.mark) {
-      perfEvents.forEach(function(eventName) {
-        document.addEventListener(eventName, function() {
-          performance.mark(eventName);
+        // Creates the tracker.
+        ga('create', {
+          trackingId: window.ENV === 'prod' ? 'UA-68400284-1' : 'UA-68400284-1',
+          cookieDomain: 'auto',
+          cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/' : null,
+          siteSpeedSampleRate: 100 // 100% of users.
         });
-      });
-    }
+      }
 
-  })();
+      // Setup error tracking before anything else runs.
+      window.onerror = function(message, file, lineNumber, columnNumber, error) {
+        // We don't want to trigger any errors inside window.onerror, so wrap in a try/catch.
+        try {
+          // Some browsers don't support error param yet.
+          if (error !== undefined) {
+            message = error.stack;
+          }
+          window.GA_ENABLED && ga('send', 'event', 'error', file + ':' + lineNumber, message);
+        } catch (e) {
+          // no-op
+        }
+      };
+
+      /**
+       * @param {string} param URL parameter to look for.
+       * @return {string|undefined} undefined if the URL parameter does not exist.
+       */
+      function getUrlParameter(param) {
+        if (!window.location.search) {
+          return;
+        }
+        var m = new RegExp(param + '=([^&]*)').exec(window.location.search.substring(1));
+        if (!m) {
+          return;
+        }
+        return decodeURIComponent(m[1]);
+      }
+
+      // If ?ignore_browser_check=true is in the URL, the user is coming back from
+      // "upgrade your browser" and we let them proceed.
+      var ignoreCheck = getUrlParameter('ignore_browser_check') == 'true';
+      // Check if browser is supported by web components polyfill.
+      // Feature detection isn't sufficient; webcomponentsjs attempts to polyfill
+      // missing features, but some browsers are known to not work under it.
+      // https://www.polymer-project.org/resources/compatibility.html
+      var supported = ignoreCheck || (function whatBrowserYouBe() {
+        var uaString = navigator.userAgent;
+        // Sorry IE < 11.
+        var msie = /MSIE +([\d\.]+)/.exec(uaString);
+        if (msie && msie[1]) {
+          if (msie[1] === '7.0') {
+            var tridentVersion = /Trident\/(\d.\d)/.exec(uaString);
+            if (tridentVersion && tridentVersion[1]) {
+              return parseInt(tridentVersion[1], 10) >= 6;
+            } else {
+              return false;
+            }
+          } else {
+            return parseInt(msie[1], 10) >= 11;
+          }
+        }
+        // Sorry older Android browser.
+        if (uaString.indexOf('Chrome') === -1 && uaString.indexOf('Android') !== -1) {
+          return !/^Google/.test(navigator.vendor);
+        }
+        // Sorry Opera < 15.
+        if (uaString.indexOf('Opera') !== -1) {
+          return false;
+        }
+        // Everyone else goes through.
+        return true;
+      })();
+
+      if (!supported) {
+        var redirectToUpgradePage = function() {
+          window.location = 'https://browser-update.org/update.html';
+        };
+        // Sends a pageview here because this code will run before IOWA.Analytics is initialized.
+        window.GA_ENABLED && ga('send', 'pageview');
+        window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-polymer', navigator.userAgent, {
+          hitCallback: setTimeout(redirectToUpgradePage, 3000)
+        });
+        // Adds a timeout to redirect in the event that analytics.js fails to
+        // load or is blocked by a browser extension.
+        setTimeout(redirectToUpgradePage, 3000);
+      }
+
+      // Get Chrome, Chromium, Opera, Vivaldi version
+      function getChromeVersion() {
+        var raw = navigator.userAgent.match(/Chrome\/([0-9]+)\./);
+        return raw ? parseInt(raw[1], 10) : false;
+      };
+      // Get Firefox version
+      function getFirefoxVersion() {
+        var raw = navigator.userAgent.match(/Firefox\/([0-9]+)\./);
+        return raw ? parseInt(raw[1], 10) : false;
+      };
+
+      var chromeVer = getChromeVersion();
+      var firefoxVer = getFirefoxVersion();
+
+      // Load ES6, Internationalization polyfills if browser does not support it
+      // TODO: Add Fetch polyfill - resolve app routing issue in IE11
+      if (!(chromeVer && chromeVer >= 46 || firefoxVer && firefoxVer >= 40)) {
+        var script = document.createElement('script');
+        //script.async = true;
+        script.src = 'https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,intl';
+        document.head.appendChild(script);
+        window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-es6-intl', navigator.userAgent);
+        window.DEBUG_MODE && console.log('Your browser is out-of-date. Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
+      }
+
+      // Adds User Timing marks for relevant perf events.
+      // These events correspond to the values tracked in analytics.js;
+      // changes made here must be made there as well.
+      var perfEvents = ['HTMLImportsLoaded', 'WebComponentsReady'];
+      if (window.performance && window.performance.mark) {
+        perfEvents.forEach(function(eventName) {
+          document.addEventListener(eventName, function() {
+            performance.mark(eventName);
+          });
+        });
+      }
+
+    })();
   </script>
 
   <link rel="import" href="src/progressive-app.html">
 
   <!-- Critical pages styles can go here -->
   <style>
-    /* Google Fonts from url https://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin-ext */
+    /* roboto-300 - latin_latin-ext */
+
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 300;
+      src: local('Roboto Light'), local('Roboto-Light'), url('fonts/roboto-v15-latin_latin-ext-300.woff2') format('woff2'), /* Super Modern Browsers */
+      url('fonts/roboto-v15-latin_latin-ext-300.woff') format('woff');
+      /* Modern Browsers */
+    }
+    /* roboto-regular - latin_latin-ext */
+
     @font-face {
       font-family: 'Roboto';
       font-style: normal;
       font-weight: 400;
-      src: local('Roboto'), local('Roboto-Regular'),
-           url(fonts/roboto/v15/latin-ext/roboto-400-fIKu7GwZTy_12XzG_jt8eA.woff2) format('woff2'),
-           url(fonts/roboto/v15/latin-ext/roboto-400-Xyjz-jNkfiYuJf8UC3Lizw.woff) format('woff');
+      src: local('Roboto'), local('Roboto-Regular'), url('fonts/roboto-v15-latin_latin-ext-regular.woff2') format('woff2'), /* Super Modern Browsers */
+      url('fonts/roboto-v15-latin_latin-ext-regular.woff') format('woff');
+      /* Modern Browsers */
     }
+    /* roboto-italic - latin_latin-ext */
+
+    @font-face {
+      font-family: 'Roboto';
+      font-style: italic;
+      font-weight: 400;
+      src: local('Roboto Italic'), local('Roboto-Italic'), url('fonts/roboto-v15-latin_latin-ext-italic.woff2') format('woff2'), /* Super Modern Browsers */
+      url('fonts/roboto-v15-latin_latin-ext-italic.woff') format('woff');
+      /* Modern Browsers */
+    }
+    /* roboto-500 - latin_latin-ext */
 
     @font-face {
       font-family: 'Roboto';
       font-style: normal;
       font-weight: 500;
-      src: local('Roboto Medium'), local('Roboto-Medium'),
-           url(fonts/roboto/v15/latin-ext/roboto-500-oOeFwZNlrTefzLYmlVV1UFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'),
-           url(fonts/roboto/v15/latin-ext/roboto-500-oOeFwZNlrTefzLYmlVV1UD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+      src: local('Roboto Medium'), local('Roboto-Medium'), url('fonts/roboto-v15-latin_latin-ext-500.woff2') format('woff2'), /* Super Modern Browsers */
+      url('fonts/roboto-v15-latin_latin-ext-500.woff') format('woff');
+      /* Modern Browsers */
     }
 
     body {
@@ -227,31 +257,34 @@
       font-weight: 400;
       line-height: 24px;
       min-height: 100vh;
-      background-color: #f5f5f5; /* Grey 100 */
-
+      background-color: #f5f5f5;
+      /* Grey 100 */
       /* Remove default margin is currently needed for iOS viewer embeds. */
       margin: 0;
-
       /* Remove highlight when tapping on elements. */
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
       /* Font smoothing for OS X */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-
       /* Text adjust is set to 100% to avoid iOS Safari bugs where the font-size is
          sometimes not restored during orientation. */
       -webkit-text-size-adjust: 100%;
     }
 
+    b, strong {
+      font-weight: 500
+    }
+
     /* Styling for render while resources are loading. For browsers don't support native Web Components. */
+
     progressive-app[unresolved] {
       display: block;
       min-height: 100vh;
     }
 
     progressive-app[unresolved] .Header {
-      background-color: #2196f3; /* Blue 500 */
+      background-color: #2196f3;
+      /* Blue 500 */
       color: #fff;
       font-size: 20px;
       line-height: 64px;
@@ -269,12 +302,12 @@
       align-items: center;
       justify-content: center;
     }
-
   </style>
 
   <link href="spinner.css" rel="stylesheet">
 
 </head>
+
 <body>
 
   <progressive-app unresolved>
@@ -291,42 +324,44 @@
   </progressive-app>
 
   <script>
-  (function() {
-    'use strict';
+    (function() {
+      'use strict';
 
-    // Store a time stamp for timing analysis toolkit.
-    window.performance && performance.mark && performance.mark('index.html');
+      // Store a time stamp for timing analysis toolkit.
+      window.performance && performance.mark && performance.mark('index.html');
 
-    var onload = function() {
-      // For native Imports, manually fire WebComponentsReady so user code
-      // can use the same code path for native and polyfill'd imports.
-      if (!window.HTMLImports) {
-        document.dispatchEvent(
-          new CustomEvent('WebComponentsReady', {bubbles: true})
-        );
+      var onload = function() {
+        // For native Imports, manually fire WebComponentsReady so user code
+        // can use the same code path for native and polyfill'd imports.
+        if (!window.HTMLImports) {
+          document.dispatchEvent(
+            new CustomEvent('WebComponentsReady', {
+              bubbles: true
+            })
+          );
+        }
+      };
+      var webComponentsSupported = (
+        'registerElement' in document &&
+        'import' in document.createElement('link') &&
+        'content' in document.createElement('template')
+      );
+      // Load webcomponentsjs polyfill if browser doesn't support native Web Components.
+      if (!webComponentsSupported) {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'bower_components/webcomponentsjs/webcomponents-lite.min.js';
+        script.onload = onload;
+        document.head.appendChild(script);
+        window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-web-components', navigator.userAgent);
+        window.DEBUG_MODE && console.log('Web Components aren\'t supported! Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
+      } else {
+        onload();
       }
-    };
-    var webComponentsSupported = (
-      'registerElement' in document
-      && 'import' in document.createElement('link')
-      && 'content' in document.createElement('template')
-    );
-    // Load webcomponentsjs polyfill if browser doesn't support native Web Components.
-    if (!webComponentsSupported) {
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = 'bower_components/webcomponentsjs/webcomponents-lite.min.js';
-      script.onload = onload;
-      document.head.appendChild(script);
-      window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-web-components', navigator.userAgent);
-      window.DEBUG_MODE && console.log('Web Components aren\'t supported! Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
-    } else {
-      onload();
-    }
 
-  })();
-
+    })();
   </script>
 
 </body>
+
 </html>
