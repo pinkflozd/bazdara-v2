@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-messaging.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+
+<dom-module id="app-widget-notifications">
+
+  <style include="pages-shared-styles">
+     :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    paper-card.card {
+      padding: 15px;
+      margin: 15px;
+      width: 270px;
+      color: #000
+    }
+  </style>
+
+  <template>
+
+    <firebase-auth app-name="bazdara" user="{{user}}" signed-in="{{signed}}"></firebase-auth>
+
+    <firebase-messaging
+     app-name="bazdara"
+      id="messaging"
+      token="{{token}}"
+      on-message="handleMessage">
+    </firebase-messaging>
+
+    <firebase-document
+     app-name="bazdara"
+      path="/notifications/[[user.uid]]/token"
+      data="[[token]]">
+    </firebase-document>
+
+    <paper-card class="card" elevation="3">
+      Obvesti me ob:
+      <paper-toggle-button
+        id="subscribe"
+        on-tap="toggleSubscription"
+        checked="[[token]]"
+        disabled="[[!signed]]">
+Vetru
+      </paper-toggle-button>
+    </paper-card>
+
+
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'app-widget-notifications',
+
+    properties: {
+
+      token: {
+        type: String
+      }
+    },
+    toggleSubscription: function() {
+      var requestPermission = this.$.subscribe.checked;
+      if (requestPermission) {
+        this.$.messaging.requestPermission().then(function () {
+          console.log('user subscribed successfully!');
+        }, function (err) {
+          console.log('user subscribe failed', err);
+        });
+      } else {
+        console.log('user rejected permission');
+      }
+    },
+    handleMessage: function() {
+      console.log('message received', arguments);
+    }
+  });
+</script>

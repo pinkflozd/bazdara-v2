@@ -89,19 +89,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           case 'signInFacebook':
             this.$.auth.signInWithPopup('facebook').then(function(response) {
-              this.set('route.path', this.app.baseUrl + 'dashboard');
+              this.set('route.path', this.app.baseUrl + '');
             }.bind(this));
           break;
 
           case 'signInGoogle':
             this.$.auth.signInWithPopup('google').then(function(response) {
-              this.set('route.path', this.app.baseUrl + 'dashboard');
+              this.set('route.path', this.app.baseUrl + '');
             }.bind(this));
           break;
 
           case 'signInWithEmailNext':
             if (this.$.auth.signInWithEmailAndPassword(data.email, data.password, data.isStaySignedInChecked)) {
-              this.set('route.path', this.app.baseUrl + 'dashboard');
+              this.set('route.path', this.app.baseUrl + '');
             }
           break;
 
@@ -117,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           case 'signUpNext':
             if (this.$.auth.createUserWithEmailAndPassword(data.email, data.password)) {
-              this.set('route.path', this.app.baseUrl + 'dashboard');
+              this.set('route.path', this.app.baseUrl + '');
             }
           break;
         }

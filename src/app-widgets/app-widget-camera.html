@@ -1,0 +1,200 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="app-widget-camera">
+
+  <style include="pages-shared-styles">
+     :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    iron-image {
+      --iron-image-width: 100%;
+      margin-bottom: -7px;
+      --iron-image-placeholder: {
+        width: 100%;
+      }
+    }
+
+    .full {
+      margin-top: -90px;
+      margin-left: 5px;
+      position: absolute;
+    }
+
+    paper-icon-button,
+    fullscreen-icon-button {
+      color: var(--text-primary-color);
+      --paper-icon-button-ink-color: var(--text-primary-color);
+      border-radius: 50%;
+    }
+
+    #video {
+      width: 100%;
+      height: auto;
+      margin-bottom: -8px;
+    }
+
+    paper-icon-button.play {
+      color: #F44336;
+      --paper-icon-button-ink-color: #F44336;
+    }
+  </style>
+
+  <template>
+
+  <div class="cam">
+
+    <video autoplay="false" poster$="[[poster]]" id="video"></video>
+
+    <div class="full">
+      <paper-icon-button class$="video {{videoClass}}" on-click="videoClick" icon="notification:live-tv" active={{active}} disabled={{disabled}}></paper-icon-button>
+      <fullscreen-icon-button hidden$="[[!fullscreenAvailable]]" target="#video" class="fullscreen" title="fullscreen" tabindex="0" alt="fullscreen"></fullscreen-icon-button>
+    </div>
+
+  </div>
+
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'app-widget-camera',
+
+    properties: {
+      lat: {
+        type: Number,
+      },
+      lng: {
+        observer: 'numberChanged',
+        type: Number,
+      },
+      town: {
+        type: String,
+        value: 'si_piranpunta'
+      },
+    },
+
+    Deg2Rad: function(deg) {
+      return deg * Math.PI / 180;
+    },
+
+    PythagorasEquirectangular: function(lat1, lon1, lat2, lon2) {
+      lat1 = this.Deg2Rad(lat1);
+      lat2 = this.Deg2Rad(lat2);
+      lon1 = this.Deg2Rad(lon1);
+      lon2 = this.Deg2Rad(lon2);
+      var R = 6371; // km
+      var x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
+      var y = (lat2 - lat1);
+      var d = Math.sqrt(x * x + y * y) * R;
+      return d;
+    },
+
+    NearestCity: function(latitude, longitude) {
+      var mindif = 99999;
+      var closest;
+
+      var cities = [
+        ["si_piranpunta", 0, 0, "Piran"],
+        ["si_piranpunta", 45.528365, 13.5657363, "Piran"],
+        ["si_piranpunta", 46.0569, 14.5058, "Ljubljana"],
+        ["si_portoroz03", 45.512827, 13.5933043, "Portorož"],
+        ["si_izola1", 45.532541, 13.6447288, "Izola"],
+        ["si_ljpz1", 45.473511, 13.6139783, "Letališče"],
+        ["it_trieste01", 45.6814596, 13.7403372, "Trst"]
+
+      ];
+
+      for (index = 0; index < cities.length; ++index) {
+        var dif = this.PythagorasEquirectangular(latitude, longitude, cities[index][1], cities[index][2]);
+        if (dif < mindif) {
+          closest = index;
+          mindif = dif;
+        }
+      }
+
+      // echo the nearest city
+      return cities[closest][0];
+    },
+
+    camera: function() {
+
+      this.town = this.NearestCity(this.lat, this.lng)
+
+      var video = this.$.video;
+
+      var storageRef = firebase.storage().ref();
+
+      storageRef.child('camera/' + this.town + '.jpg').getDownloadURL().then(function(url) {
+        //var xhr = new XMLHttpRequest();
+        //xhr.responseType = 'blob';
+        //xhr.onload = function(event) {
+        //  var blob = xhr.response;
+        //};
+        //xhr.open('GET', url);
+        //xhr.send();
+
+        video.poster = url;
+      }).catch(function(error) {
+        setDelay(function() {
+          this.camera();
+        }.bind(this), 10000);
+      });
+
+    },
+
+    numberChanged: function() {
+      this.camera();
+    },
+
+    ready: function() {
+
+      setInterval(function() {
+        this.camera();
+      }.bind(this), 300000);
+
+    },
+
+    videoClick: function() {
+
+      var video = this.$.video;
+
+      if (!Hls.isSupported()) {
+        this.disabled = true;
+      };
+      if (Hls.isSupported()) {
+        var hls = new Hls({
+          autoStartLoad: true
+        });
+
+        if (video.paused) {
+
+          hls.loadSource('https://x.bazdara.com/hls/' + this.town + '.m3u8');
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, function() {
+
+          });
+
+          video.play();
+          this.videoClass = "play";
+          this.active = true;
+
+        } else {
+          video.pause();
+          hls.destroy();
+          video.load()
+          this.videoClass = "";
+          this.active = false;
+
+          this.camera();
+
+        };
+      };
+
+    }
+
+  });
+</script>

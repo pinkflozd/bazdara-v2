@@ -1,0 +1,223 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../app-imports/highcharts-import.html">
+
+<dom-module id="app-widget-tide">
+
+  <style include="pages-shared-styles">
+     :host {
+      display: block;
+      box-sizing: border-box;
+    }
+  </style>
+  <template>
+
+    <firebase-query
+            path="/plimovanje/koper"
+            data="{{data}}"
+            order-by="$key">
+        </firebase-query>
+
+    <div id="graf_plima" style="width:100%;height:420px"></div>
+
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'app-widget-tide',
+
+    properties: {
+      plima: {
+        type: Object
+      },
+
+    },
+
+    created: function() {
+
+      var d = new Date();
+      d.setUTCHours(0, 0, 0, 0);
+      prev = Date.parse(d) - 3600000;
+      next = prev + 172800000;
+
+      starter = prev - 86400000;
+      ender = prev + 604800000;
+
+      start = starter / 100000;
+      end = ender / 100000;
+      starting = starter - 3600000;
+
+      var request = new XMLHttpRequest();
+      request.open('GET', 'https://bazdara-99a47.firebaseio.com/plimovanje/koper.json?orderBy=%22$key%22&startAt=%22' + start + '%22&endAt=%22' + end + '%22', true);
+
+      request.onload = function() {
+        if (this.status >= 200 && this.status < 400) {
+          // Success!
+          var data = JSON.parse(this.response);
+
+          var field = "h";
+          var datas = [];
+
+          Object.keys(data).forEach(function(key) {
+            datas.push(data[key].h);
+          });
+
+          //console.log(datas);
+
+          // Create a timer
+          var start = +new Date();
+
+          // Create the chart
+          var chart = new Highcharts.StockChart({
+            chart: {
+              zoomType: 'x',
+              renderTo: 'graf_plima',
+              type: 'spline',
+              style: {
+                fontFamily: 'Roboto, sans-serif'
+              },
+              events: {
+                load: function(event) {
+                  var chart = this;
+                  setTimeout(function() {
+                    chart.xAxis[0].setExtremes(prev, next);
+                  }, 1);
+                },
+              },
+            },
+
+            rangeSelector: {
+
+              buttons: [{
+                type: '',
+                count: 1,
+                text: '48h'
+              }],
+              selected: 0
+            },
+
+            credits: {
+              enabled: false,
+            },
+
+            exporting: {
+              enabled: true
+            },
+
+            yAxis: {
+              title: null,
+              max: 80,
+              min: -80,
+              tickInterval: 1.0,
+              plotLines: [
+
+                {
+                  color: '#62a8ea',
+                  width: 1,
+                  value: 60,
+                  dashStyle: 'solid',
+                  label: {
+                    text: 'Plima',
+                    style: {
+                      fontSize: '12px'
+                    }
+                  },
+                  zIndex: 5
+                }, {
+                  color: '#46BE8A',
+                  width: 1,
+                  value: -60,
+                  dashStyle: 'solid',
+                  label: {
+                    text: 'Oseka',
+                    style: {
+                      fontSize: '12px'
+                    }
+                  },
+                  zIndex: 5
+                },
+              ]
+            },
+
+            xAxis: {
+              type: 'datetime',
+              dateTimeLabelFormats: {
+                day: '%e %b',
+                week: '%e %b %y',
+                month: '%b %y',
+                year: '%Y'
+              },
+              events: {
+                afterSetExtremes: function(e) {
+                  if (e.trigger == "rangeSelectorButton" &&
+                    e.rangeSelectorButton.text == "48h") {
+
+                    // it is your button that caused this,
+                    // so setExtrememes to your custom
+                    // have to do in timeout to let
+                    // highcharts finish processing events...
+                    setTimeout(function() {
+                      var chart = this;
+                      chart.xAxis[0].setExtremes(prev, next);
+                    }, 1);
+
+                  }
+                },
+              },
+              plotLines: [{
+                value: (Date.now()),
+                color: '#F44336',
+                width: 1,
+                zIndex: 10,
+                dashStyle: 'solid',
+              }]
+
+            },
+
+            title: null,
+
+            series: [{
+              name: 'Višina',
+              type: 'areaspline',
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[0]],
+                  [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+              },
+              data: datas,
+              pointStart: starting,
+              pointInterval: 1800000,
+              tooltip: {
+                valueDecimals: 1,
+                valueSuffix: 'cm'
+              }
+            }]
+
+          });
+
+        } else {
+          // We reached our target server, but it returned an error
+
+        }
+      };
+
+      request.onerror = function() {
+        // There was a connection error of some sort
+      };
+
+      request.send();
+
+    }
+
+  });
+</script>

@@ -206,7 +206,7 @@
     })();
   </script>
 
-  <link rel="import" href="src/progressive-app.html">
+  <link rel="import" href="src/bazdara-app.html">
 
   <!-- Critical pages styles can go here -->
   <style>
@@ -271,10 +271,10 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    b, strong {
+    b,
+    strong {
       font-weight: 500
     }
-
     /* Styling for render while resources are loading. For browsers don't support native Web Components. */
 
     progressive-app[unresolved] {
@@ -310,7 +310,7 @@
 
 <body>
 
-  <progressive-app unresolved>
+  <bazdara-app unresolved>
     <!-- Content for render while resources are loading. For browsers don't support native Web Components. -->
     <div class="Header">Bazdara</div>
     <div class="Main">
@@ -321,7 +321,7 @@
         </div>
       </div>
     </div>
-  </progressive-app>
+  </bazdara-app>
 
   <script>
     (function() {
@@ -360,6 +360,8 @@
       }
 
     })();
+
+
   </script>
 
 </body>

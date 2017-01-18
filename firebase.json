@@ -3,24 +3,24 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "build/bundled",
+    "public": "build/unbundled",
     "headers": [{
       "source": "/",
       "headers": [{
         "key": "Link",
-        "value": "</src/progressive-app.html>; rel=preload; as=document,</src/app-pages/app-page-home/app-page-home.html>; rel=preload; as=document,</src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document"
+        "value": "</src/bazdara-app.html>; rel=preload; as=document"
       }]
     }, {
       "source": "/sign-in",
       "headers": [{
         "key": "Link",
-        "value": "</src/progressive-app.html>; rel=preload; as=document,</src/app-pages/app-pages-sign-in/app-page-sign-in/app-page-sign-in.html>; rel=preload; as=document,</src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document"
+        "value": "</src/bazdara-app.html>; rel=preload; as=document,</src/app-pages/app-pages-sign-in/app-page-sign-in/app-page-sign-in.html>; rel=preload; as=document,</src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document"
       }]
     }, {
       "source": "/contact-us",
       "headers": [{
         "key": "Link",
-        "value": "</src/progressive-app.html>; rel=preload; as=document,</src/app-pages/app-page-contact-us/app-page-contact-us.html>; rel=preload; as=document,</src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document"
+        "value": "</src/bazdara-app.html>; rel=preload; as=document,</src/app-pages/app-page-contact-us/app-page-contact-us.html>; rel=preload; as=document,</src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document"
       }]
     }, {
       "source": "/service-worker.js",

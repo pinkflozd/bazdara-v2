@@ -1,0 +1,99 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/progress-bubble/progress-bubble.html">
+
+<dom-module id="app-widget-gauges">
+
+  <style include="pages-shared-styles">
+     :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    progress-bubble {
+      line-height: 10px;
+      --progress-bubble-stroke-color: rgba(255, 0, 0, 0.8);
+      --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+      --progress-bubble-background: transparent;
+      --progress-bubble-reflection-display: none;
+    }
+
+    progress-bubble small {
+      font-size: 12px
+    }
+
+    paper-card.dark {
+      color: #f5f5f5;
+      --paper-card-header-color: #f5f5f5;
+    }
+
+    paper-card {
+      margin: 10px;
+      width: calc(100% - 20px);
+    }
+  </style>
+
+  <template>
+    <div class="row">
+
+      <div class="col-sm-6 col-md-3 col-xl-3 col-xxl-12">
+        <paper-card elevation="2" style="background-color:#004D40">
+          <progress-bubble value="[[live.currentWindSpeed]]" max="[[trenutno.veter.gauge]]" stroke-width="10">
+            <strong>[[live.currentWindSpeed]]m/s</strong><br>
+            <small>Hitrost vetra</small>
+          </progress-bubble>
+        </paper-card>
+      </div>
+
+      <div class="col-sm-6 col-md-3 col-xl-3 col-xxl-12">
+        <paper-card elevation="2" style="background-color:#E65100">
+          <progress-bubble value="[[live.temperatureAir]]" max="[[trenutno.temp.max]]" stroke-width="10">
+            <strong>[[live.temperatureAir]]°C</strong><br>
+            <small>Temperatura</small>
+          </progress-bubble>
+        </paper-card>
+      </div>
+
+      <div class="col-sm-6 col-md-3 col-xl-3 col-xxl-12">
+        <paper-card elevation="2" style="background-color:#01579B">
+          <progress-bubble value="[[live.wavesHeight]]" max="[[trenutno.val.max]]" stroke-width="10">
+            <strong>[[live.wavesHeight]]m</strong><br>
+            <small>Višina vala</small>
+          </progress-bubble>
+        </paper-card>
+      </div>
+
+      <div class="col-sm-6 col-md-3 col-xl-3 col-xxl-12">
+        <paper-card elevation="2" style="background-color:#B71C1C">
+          <progress-bubble value="[[live.temperatureSeaSurface]]" max="[[trenutno.morje.vrh.max]]" stroke-width="10">
+            <strong>[[live.temperatureSeaSurface]]°C</strong><br>
+            <small>Temperatura morja</small>
+          </progress-bubble>
+        </paper-card>
+      </div>
+
+    </div>
+
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'app-widget-gauges',
+
+    properties: {
+
+      trenutno: {
+        type: Object,
+        notify: true
+      },
+      live: {
+        type: Object,
+        notify: true
+      }
+    }
+
+  });
+</script>

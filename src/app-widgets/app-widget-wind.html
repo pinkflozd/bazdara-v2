@@ -1,0 +1,438 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<!--
+An element providing a wind direction and speed indicator.
+
+Example:
+
+    <app-widget-wind direction="[[direction]]" speed="[[speedkmh]]" gust="[[gustkmh]]"></app-widget-wind>
+
+@element app-widget-wind
+@demo demo/index.html
+@test test/index.html
+
+-->
+
+
+<dom-module id="app-widget-wind">
+
+  <style include="pages-shared-styles">
+     :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    .vertical {
+      @apply(--layout-vertical);
+    }
+
+
+    #curWind,
+    #windDir {
+
+      position: relative;
+    }
+
+    #windCompassContainer {
+      width: 128px;
+      height: 128px;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #windCompassContainer #windCompass {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+    }
+
+    #windCompass {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      -webkit-transition: all 0.5s ease-in-out;
+      -moz-transition: all 0.5s ease-in-out;
+      -o-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+      margin-left: 10px
+    }
+
+    #windCompassContainer #windCompass .dial {
+      border-radius: 50%;
+      width: 95px;
+      height: 95px;
+      border: 5px solid var(--paper-blue-400);
+      position: relative;
+      -moz-box-sizing: content-box;
+      -webkit-box-sizing: content-box;
+      box-sizing: content-box;
+    }
+
+    #windCompassContainer #windCompass .arrow-direction {
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 21px solid var(--paper-red-900);
+      position: absolute;
+      left: 35.5px;
+      top: -11.66667px;
+    }
+
+    #windCompassContainer #windCompassSpeed {
+      top: 30px;
+      left: 0;
+      width: 125px;
+      position: absolute;
+      text-align: center;
+      line-height: inherit;
+    }
+
+    #windCompassContainer #windCompassSpeed .data {
+      @apply(--paper-font-title);
+      margin: 0;
+    }
+
+
+    .unit {
+      @apply(--paper-font-body1);
+      color: var(--primary-text-color);
+    }
+
+    #windDir .value {
+      @apply(--paper-font-body1);
+      color: var(--primary-text-color);
+    }
+
+    .value {
+      color: var(--primary-text-color);
+    }
+
+    .info {
+      @apply(--paper-font-body1);
+      color: var(--secondary-text-color);
+    }
+
+    .centered {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+
+        .wind {
+          padding: 16px 16px 16px 16px;
+          font-size: 24px;
+          font-weight: 400;
+          color: #000;
+        }
+  </style>
+
+  <template>
+
+    <div class="wind">
+      Piha {{_windNames}}
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6">
+
+        <div id="curWind">
+          <div id="windCompassContainer">
+            <div id="windCompass" class="data" >
+              <div class="dial">
+                <div class="arrow-direction"></div>
+              </div>
+            </div>
+            <div id="windCompassSpeed" >
+              <div class="data" id="speedValue">{{_decimalFormat(speed)}}</div>
+              <div class="unit">m/s</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div id="windDir">
+          <span class="centered">
+            <span class=" info">
+              Wind from
+              <span class="value" id="compassValue">{{_windNames}} {{_windCompass}}</span>
+            </span>
+            <span class="info" >
+              <br>Gusts
+              <span class="data">
+                <span class="value" id="gustValue">{{_decimalFormat(gust)}}</span>
+                <span class="unit">m/s</span>
+                {{_speed}} {{_speed2}}
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'app-widget-wind',
+
+    properties: {
+
+      /**
+       * `direction` the wind direction in degrees.
+       */
+      direction: {
+        type: Number,
+        value: 0.0,
+        observer: '_directionChange'
+      },
+      name: {
+        type: Number,
+        value: 0.0,
+        observer: '_nameChange'
+      },
+      /**
+       * `speed` the wind speed in m/s.
+       */
+      speed: {
+        type: Number,
+        value: 0.0,
+        observer: '_speedChange'
+      },
+      /**
+       * `gust` the wind gust in m/s.
+       */
+      gust: {
+        type: Number,
+        value: 0.0,
+      },
+
+    },
+
+    _directions: [{
+      direction: 'N',
+      from: 348.75,
+      to: 11.25
+    }, {
+      direction: 'NNE',
+      from: 11.25,
+      to: 33.75
+    }, {
+      direction: 'NE',
+      from: 33.75,
+      to: 56.25
+    }, {
+      direction: 'ENE',
+      from: 56.25,
+      to: 78.75
+    }, {
+      direction: 'E',
+      from: 78.75,
+      to: 101.25
+    }, {
+      direction: 'ESE',
+      from: 101.25,
+      to: 123.75
+    }, {
+      direction: 'SE',
+      from: 123.75,
+      to: 146.25
+    }, {
+      direction: 'SSE',
+      from: 146.25,
+      to: 168.75
+    }, {
+      direction: 'S',
+      from: 168.75,
+      to: 191.25
+    }, {
+      direction: 'SSW',
+      from: 191.25,
+      to: 213.75
+    }, {
+      direction: 'SW',
+      from: 213.75,
+      to: 236.25
+    }, {
+      direction: 'WSW',
+      from: 236.25,
+      to: 258.75
+    }, {
+      direction: 'W',
+      from: 258.75,
+      to: 281.25
+    }, {
+      direction: 'WNW',
+      from: 281.25,
+      to: 303.75
+    }, {
+      direction: 'NW',
+      from: 303.75,
+      to: 326.25
+    }, {
+      direction: 'NNW',
+      from: 326.25,
+      to: 348.75
+    }],
+
+
+    _names: [{
+      name: 'Tramontana',
+      from: 340.1,
+      to: 10
+    }, {
+      name: 'Burin',
+      from: 10.1,
+      to: 30
+    }, {
+      name: 'Burja',
+      from: 30.1,
+      to: 100
+    }, {
+      name: 'Levant',
+      from: 100.1,
+      to: 120
+    }, {
+      name: 'Jugo',
+      from: 120.1,
+      to: 160
+    }, {
+      name: 'Oštro',
+      from: 160.1,
+      to: 200
+    }, {
+      name: 'Lebič',
+      from: 200.1,
+      to: 240
+    }, {
+      name: 'Garbin',
+      from: 240.1,
+      to: 260
+    }, {
+      name: 'Ponent',
+      from: 260.1,
+      to: 290
+    }, {
+      name: 'Maestral',
+      from: 290.1,
+      to: 340
+    }],
+
+    _speeds: [{
+      speed: 'Tišina',
+      speed2: '0 Beauforja',
+      from: 0,
+      to: 0.3
+    }, {
+      speed: 'Lahek vetrič',
+      speed2: '1 Beaufor',
+      from: 0.3,
+      to: 1.5
+    }, {
+      speed: 'Vetrič',
+      speed2: '2 Beauforja',
+      from: 1.5,
+      to: 3.3
+    }, {
+      speed: 'Slab veter',
+      speed2: '3 Beauforje',
+      from: 3.3,
+      to: 5.5
+    }, {
+      speed: 'Zmeren veter',
+      speed2: '4 Beauforje',
+      from: 5.5,
+      to: 8
+    }, {
+      speed: 'Zmerno močan veter',
+      speed2: '5 Beauforjev',
+      from: 8,
+      to: 10.8
+    }, {
+      speed: 'Močan veter',
+      speed2: '6 Beauforjev',
+      from: 10.8,
+      to: 13.9
+    }, {
+      speed: 'Zelo močan veter',
+      speed2: '7 Beauforjev',
+      from: 13.9,
+      to: 17.2
+    }, {
+      speed: 'Viharni veter',
+      speed2: '8 Beauforjev',
+      from: 17.2,
+      to: 20.7
+    }, {
+      speed: 'Vihar',
+      speed2: '9 Beauforjev',
+      from: 20.7,
+      to: 24.5
+    }, {
+      speed: 'Močan vihar',
+      speed2: '10 Beauforjev',
+      from: 24.5,
+      to: 28.4
+    }, {
+      speed: 'Orkanski veter',
+      speed2: '11 Beauforjev',
+      from: 28.4,
+      to: 32.6
+    }, {
+      speed: 'Orkan',
+      speed2: '12 Beauforjev',
+      from: 32.6,
+      to: 1000
+    }],
+
+    _directionChange: function(e) {
+      this.transform('rotate(' + e + 'deg)', this.$.windCompass);
+
+      for (var i = 1; i < this._directions.length; i++) {
+        if (e >= this._directions[i].from && e < this._directions[i].to) {
+          this._windCompass = this._directions[i].direction;
+          return;
+        }
+      }
+      this._windCompass = this._directions[0].direction;
+
+    },
+
+    _nameChange: function(e) {
+
+      for (var i = 1; i < this._names.length; i++) {
+        if (e >= this._names[i].from && e < this._names[i].to) {
+          this._windNames = this._names[i].name;
+          return;
+        }
+      }
+      this._windNames = this._names[0].name;
+
+    },
+
+    _speedChange: function(e) {
+
+      for (var i = 1; i < this._speeds.length; i++) {
+        if (e >= this._speeds[i].from && e < this._speeds[i].to) {
+          this._speed = this._speeds[i].speed;
+          this._speed2 = this._speeds[i].speed2;
+          return;
+        }
+      }
+      this._speed = this._speeds[0].speed;
+      this._speed2 = this._speeds[0].speed2;
+    },
+
+    _decimalFormat: function(value) {
+      return value ? value.toFixed(1) : '0.0';
+    },
+
+  });
+</script>

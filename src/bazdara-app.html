@@ -18,12 +18,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+
+<link rel="import" href="../bower_components/polymerfire/firebase.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+
 <link rel="import" href="app-init.html">
 <link rel="import" href="app-shell/app-shell.html">
 <link rel="import" href="app-storage.html">
 <link rel="import" href="app-themes/current-theme/global-styles/global-styles.html">
 
-<dom-module id="progressive-app">
+<dom-module id="bazdara-app">
 
   <template>
 
@@ -32,7 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         /* TODO: Remove this background image from home page - use :host(.foo)::after */
         background-image: url('data:image/jpeg;base64,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');
-        background-position: center center;
+        background-position: center top;
         background-size: cover;
         display: block;
         min-height: 100vh;
@@ -60,6 +64,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
+
+    <firebase-app name="bazdara"
+                  api-key="AIzaSyD2PAdzxrpNtJWqKGUm2RW441euKOT6p6Y"
+                  auth-domain="bazdara-99a47.firebaseapp.com"
+                  database-url="https://bazdara-99a47.firebaseio.com"
+                  messaging-sender-id="544509936614"
+                  storage-bucket="bazdara-99a47.appspot.com"></firebase-app>
 
     <app-location route="{{_route}}"></app-location>
     <app-route pattern="/:page" route="{{_route}}" data="{{_routeData}}"></app-route>
@@ -93,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: 'progressive-app',
+      is: 'bazdara-app',
 
       properties: {
         app: {
@@ -158,6 +169,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.listen(window, 'online', '_notifyNetworkStatus');
           this.listen(window, 'offline', '_notifyNetworkStatus');
         });
+        var config = {
+          storageBucket: "bazdara-99a47.appspot.com"
+        };
+        firebase.initializeApp(config);
       },
 
       _computeShellBackgroundClasses: function(page) {
@@ -165,9 +180,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var route = this._route.path.split('/');
         var isRouteTail = route.length >= 3 && route[route.length - 1] !== '';
 
-        if (this.app.isTabletWide && page !== '' || !this.app.isTabletWide && (page === 'sign-in' && !isRouteTail)) {
+        if (this.app.isTabletWide && page !== 'test' || !this.app.isTabletWide && (page === 'sign-in' && !isRouteTail)) {
           classes = 'Shell--backgroundImage';
-        } else if (this.app.isTabletWide && page === '') {
+        } else if (this.app.isTabletWide && page === 'test') {
           classes = 'Shell--secondaryBackground';
         } else {
           classes = 'Shell--primaryBackground';

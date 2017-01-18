@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/progressive-app.html",
+  "shell": "src/bazdara-app.html",
   "fragments": [
     "src/app-lazy-resources.html",
     "src/app-pages/app-page-404/app-page-404.html",
@@ -15,7 +15,12 @@
     "src/app-service-worker.html",
     "src/app-shell/app-shell-drawer.html",
     "src/app-shell/app-shell-lazy-resources.html",
-    "src/app-ui-components/app-snackbar/app-snackbar.html"
+    "src/app-ui-components/app-snackbar/app-snackbar.html",
+    "src/app-widgets/app-widget-notifications.html",
+    "src/app-widgets/app-widget-meteogram.html",
+    "src/app-widgets/app-widget-tide.html",
+    "src/app-widgets/app-widget-napoved.html",
+    "src/app-widgets/app-widget-gauges.html"
   ],
   "sourceGlobs": [
     "src/**/*",
@@ -29,6 +34,7 @@
     "clear-cache.html",
     "manifest.json",
     "spinner.css",
+    "firebase-messaging-sw.js",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]
 }

@@ -1,0 +1,49 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="app-widget-proverb">
+
+  <style include="pages-shared-styles">
+     :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    .proverb {
+      padding: 16px 16px 6px 16px;
+      font-size: 24px;
+      font-weight: 400;
+      color: #f5f5f5;
+    }
+
+    .text {
+      padding: 0 16px 16px 16px;
+      text-align: right;
+      font-style: italic;
+    }
+  </style>
+
+  <template>
+
+    <div class="proverb">[[proverb]]</div>
+    <div class="text">Pregovor dneva</div>
+
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'app-widget-proverb',
+
+    properties: {
+
+      proverb: {
+        type: String,
+        value: ''
+      }
+
+    },
+
+  });
+</script>

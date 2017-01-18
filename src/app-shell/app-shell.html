@@ -17,14 +17,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../app-pages/app-pages.html">
 <link rel="import" href="../app-themes/current-theme/shared-styles/components-shared-styles.html">
 
+<link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
+
+
 <link rel="import" href="app-icons-header.html">
-<!--
-<link rel="import" href="app-shell-header.html">
--->
 
 <dom-module id="app-shell">
 
-    <template>
+  <template>
 
     <style include="components-shared-styles">
 
@@ -71,43 +71,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app-shell-header {
         text-shadow: 0px rgba(0, 0, 0, 0.0);
       }
-
-/*
-      .Header.home {
-        background-image: url('data:image/jpeg;base64,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');        background-position: center top;
-        background-size: cover;
-        background-position: center center;
-        height: 100vh;
-        min-height: 320px;
-        width: 100vw;
-
-        --app-header-background-front-layer: {
-          opacity: 0;
-        };
-      }
-
-      .Header.home.background-loaded {
-        --app-header-background-front-layer: {
-          background-image: url('../../images/background.jpg');
-          background-position: center center;
-          background-size: cover;
-          height: 100%;
-          transition: opacity 0.5s;
-          opacity: 1;
-        };
-      }
-
-      .Header.home.background-loaded.remove-transition {
-        --app-header-background-front-layer: {
-          background-image: url('../../images/background.jpg');
-          background-position: center center;
-          background-size: cover;
-          height: 100%;
-          opacity: 1;
-        };
-      }
-
-      */
 
 
       .Header-actionButton {
@@ -219,6 +182,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
 
+      .dropdown-content{
+        width: 300px;
+        overflow: hidden;
+      }
+
     </style>
 
     <iron-media-query query="(max-height: 700px)" query-matches="{{mobile}}"></iron-media-query>
@@ -268,21 +236,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           disabled="[[app.isOffline]]" raised>{{localize('sign-in')}}</paper-button>
           </a>
 
-          <div hidden$="[[!app.isSignedIn]]">[[app.userProfile.displayName]]</div>
+          <div hidden$="[[!app.isSignedIn]]">
+            <paper-avatar mini image-sizing="cover" image-src$="[[app.userProfile.photoURL]]" on-click="avatarClick"></paper-avatar>
+            <iron-dropdown id="showMenu" horizontal-align="right" vertical-align="top">
+              <div class="dropdown-content">
+                <app-widget-notifications id="notif"></app-widget-notifications>
+              </div>
+            </iron-dropdown>
+          </div>
 
         </app-toolbar>
-
-<!--
-        <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
-          <app-shell-header></app-shell-header>
-        </div>
-
-        <div class="Header-bottom" hidden$="{{!_isPage('home', page)}}">
-          <app-scroll-button class="ScrollDownButton" on-tap="_onScrollDownButtonTap">
-            {{localize('scroll')}}
-          </app-scroll-button>
-        </div>
--->
 
     </app-header>
 
@@ -296,192 +259,203 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </template>
 
-    <script>
-        Polymer({
+  <script>
+    Polymer({
 
-            is: 'app-shell',
+      is: 'app-shell',
 
-            properties: {
-                app: Object,
+      properties: {
+        app: Object,
 
-                page: {
-                    type: String,
-                    reflectToAttribute: true,
-                    observer: '_pageChanged'
-                },
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged'
+        },
 
-                route: Object,
+        route: Object,
 
-                _headerActionButtonIcon: {
-                    type: String,
-                    value: 'menu'
-                },
+        _headerActionButtonIcon: {
+          type: String,
+          value: 'menu'
+        },
 
-                _isBackgroundLoaded: {
-                    type: Boolean,
-                    value: false
-                },
+        _isBackgroundLoaded: {
+          type: Boolean,
+          value: false
+        },
 
-                _isDrawerLoaded: {
-                    type: Boolean,
-                    value: false
-                },
+        _isDrawerLoaded: {
+          type: Boolean,
+          value: false
+        },
 
-                _isLazyLoadComplete: {
-                    type: Boolean,
-                    value: false
-                },
+        _isLazyLoadComplete: {
+          type: Boolean,
+          value: false
+        },
 
-                _isLocalesLoaded: {
-                    type: Boolean,
-                    value: false
-                },
+        _isLocalesLoaded: {
+          type: Boolean,
+          value: false
+        },
 
-                _isPageSwitched: {
-                    type: Boolean,
-                    value: false
-                },
+        _isPageSwitched: {
+          type: Boolean,
+          value: false
+        },
 
-                _pageTitleComputed: {
-                    type: Function,
-                    computed: '_computePageTitle(page, app.pageTitle)'
-                }
-            },
+        _pageTitleComputed: {
+          type: Function,
+          computed: '_computePageTitle(page, app.pageTitle)'
+        }
+      },
 
-            behaviors: [
-                AppBehaviors.AppLocalizeBehavior
-            ],
+      behaviors: [
+        AppBehaviors.AppLocalizeBehavior
+      ],
 
-            listeners: {
-                'app-page-loaded': '_onAppPageLoaded',
-                'app-resources-loaded': '_onLocalesLoaded'
-            },
+      listeners: {
+        'app-page-loaded': '_onAppPageLoaded',
+        'app-resources-loaded': '_onLocalesLoaded'
+      },
 
-            attached: function() {
-                this.loadLocales(this.is);
-            },
+      attached: function() {
+        this.loadLocales(this.is);
+      },
 
-            onBackgroundLoad: function() {
-                this._isBackgroundLoaded = true;
-                // TODO: Improve lazy loading effect of header background image on quick network
-                this.async(function() {
-                    this.$.header.classList.add('background-loaded');
-                    this.$.header.updateStyles();
-                }, 700);
-                // Remove transition effect after background loaded for blend-background app-scroll-effect
-                this.async(function() {
-                    this.$.header.classList.add('remove-transition');
-                    this.$.header.updateStyles();
-                }, 1000);
-            },
+      avatarClick: function() {
+        if (Polymer.isInstance(this.$.notif)) {
+          this.$.showMenu.toggle();
+        } else {
+          this.importHref(this.resolveUrl('../app-widgets/app-widget-notifications.html'), function() {
+            this.$.showMenu.toggle();
+          });
+        }
 
-            _computeAppNameHidden: function(isTabletWide, page) {
-                return page !== 'home' && !isTabletWide;
-            },
+      },
 
-            _computePageTitle: function(page, title) {
-                window.document.title = title + ' - ' + this.app.name;
-                return page === 'home' ? '' : title;
-            },
+      onBackgroundLoad: function() {
+        this._isBackgroundLoaded = true;
+        // TODO: Improve lazy loading effect of header background image on quick network
+        this.async(function() {
+          this.$.header.classList.add('background-loaded');
+          this.$.header.updateStyles();
+        }, 700);
+        // Remove transition effect after background loaded for blend-background app-scroll-effect
+        this.async(function() {
+          this.$.header.classList.add('remove-transition');
+          this.$.header.updateStyles();
+        }, 1000);
+      },
 
-            _computeSignInButtonHidden: function(isLazyLoadComplete, isOffline, isSignedIn, page) {
-                return !(page === 'about-us' || page === 'contact-us' || page === 'home') ||
-                    isOffline || isSignedIn || !isLazyLoadComplete;
-            },
+      _computeAppNameHidden: function(isTabletWide, page) {
+        return page !== 'home' && !isTabletWide;
+      },
 
-            _computeTitleDashHidden: function(isTabletWide, page) {
-                return page === 'home' || page !== 'home' && !isTabletWide;
-            },
+      _computePageTitle: function(page, title) {
+        window.document.title = title + ' - ' + this.app.name;
+        return page === 'home' ? '' : title;
+      },
 
-            _ensureLazyLoaded: function() {
-                // Load lazy resources after render and set `_isLazyLoadComplete` when done.
-                if (!this._isLazyLoadComplete) {
-                    Polymer.RenderStatus.afterNextRender(this, function() {
-                        this.importHref(this.resolveUrl('app-shell-lazy-resources.html'), function() {
-                            this._isLazyLoadComplete = true;
-                            // Set header effects after lazy loaded scroll effect elements
-                            this.$.header.setAttribute('effects', 'blend-background parallax-background');
-                            this.$.header.updateStyles();
+      _computeSignInButtonHidden: function(isLazyLoadComplete, isOffline, isSignedIn, page) {
+        return !(page === 'about-us' || page === 'contact-us' || page === 'home') ||
+          isOffline || isSignedIn || !isLazyLoadComplete;
+      },
 
-                            this.fire('app-shell-loaded');
-                        });
-                    });
-                }
-            },
+      _computeTitleDashHidden: function(isTabletWide, page) {
+        return page === 'home' || page !== 'home' && !isTabletWide;
+      },
 
-            _isPage: function(pageName, selectedPage) {
-                return pageName === selectedPage;
-            },
+      _ensureLazyLoaded: function() {
+        // Load lazy resources after render and set `_isLazyLoadComplete` when done.
+        if (!this._isLazyLoadComplete) {
+          Polymer.RenderStatus.afterNextRender(this, function() {
+            this.importHref(this.resolveUrl('app-shell-lazy-resources.html'), function() {
+              this._isLazyLoadComplete = true;
+              // Set header effects after lazy loaded scroll effect elements
+              this.$.header.setAttribute('effects', 'blend-background parallax-background');
+              this.$.header.updateStyles();
 
-            _onAppPageLoaded: function() {
-                this._ensureLazyLoaded();
-            },
+              this.fire('app-shell-loaded');
+            });
+          });
+        }
+      },
 
-            _onHeaderActionButtonTap: function() {
-                if (this.page === 'home') {
-                    if (!this._isDrawerLoaded) {
-                        this.importHref(this.resolveUrl('app-shell-drawer.html'), function() {
-                            this._isDrawerLoaded = true;
-                            this._toggleDrawer();
-                        });
-                    } else {
-                        this._toggleDrawer();
-                    }
-                } else {
-                    //window.history.back();
-                    var url = this.route.path.split('/');
-                    if (url[url.length - 1] === '') {
-                        url.pop();
-                    }
-                    url.pop();
-                    this.set('route.path', url.join('/'));
-                }
-            },
+      _isPage: function(pageName, selectedPage) {
+        return pageName === selectedPage;
+      },
 
-            _onLocalesLoaded: function(event) {
-                event.stopPropagation();
-                this.set('_isLocalesLoaded', true);
-            },
+      _onAppPageLoaded: function() {
+        this._ensureLazyLoaded();
+      },
 
-            _onScrollDownButtonTap: function() {
-                this.$.header.scroll(0, this.$.pages.$.home.$.section1.offsetTop);
-            },
+      _onHeaderActionButtonTap: function() {
+        if (this.page === 'home') {
+          if (!this._isDrawerLoaded) {
+            this.importHref(this.resolveUrl('app-shell-drawer.html'), function() {
+              this._isDrawerLoaded = true;
+              this._toggleDrawer();
+            });
+          } else {
+            this._toggleDrawer();
+          }
+        } else {
+          //window.history.back();
+          var url = this.route.path.split('/');
+          if (url[url.length - 1] === '') {
+            url.pop();
+          }
+          url.pop();
+          this.set('route.path', url.join('/'));
+        }
+      },
 
-            _pageChanged: function(page, oldPage) {
-                if (page) {
-                    // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
-                    // with `behavior: 'silent'` to disable header scroll effects during the scroll.
-                    //Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this.set('_isLocalesLoaded', true);
+      },
 
-                    // Close the drawer - in case the *route* change came from a link in the drawer.
-                    this._isDrawerOpened = false;
+      _onScrollDownButtonTap: function() {
+        this.$.header.scroll(0, this.$.pages.$.home.$.section1.offsetTop);
+      },
 
-                    // Set icon of headerActionButton
-                    this._headerActionButtonIcon = page === 'home' ? 'menu' : 'back';
+      _pageChanged: function(page, oldPage) {
+        if (page) {
+          // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
+          // with `behavior: 'silent'` to disable header scroll effects during the scroll.
+          //Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
 
-                    if (page === 'home' && this._isBackgroundLoaded) {
-                        this.$.header.classList.add('background-loaded');
-                        this.$.header.classList.add('remove-transition');
-                    }
+          // Close the drawer - in case the *route* change came from a link in the drawer.
+          this._isDrawerOpened = false;
 
-                    this._isPageSwitched = Boolean(oldPage);
-                    if (this._isPageSwitched) {
-                        this.async(function() {
-                            // The size of the header depends on the page, so reset the header's layout only when switching pages.
-                            this.$.header.resetLayout();
-                            // Update header styles for dynamic loading background image
-                            this.$.header.updateStyles();
-                        });
-                    }
-                }
-            },
+          // Set icon of headerActionButton
+          this._headerActionButtonIcon = page === 'home' ? 'menu' : 'back';
 
-            // Toggle function for lazy loaded drawer
-            _toggleDrawer: function() {
-                this._isDrawerOpened = !this._isDrawerOpened;
-            }
+          if (page === 'home' && this._isBackgroundLoaded) {
+            this.$.header.classList.add('background-loaded');
+            this.$.header.classList.add('remove-transition');
+          }
 
-        });
-    </script>
+          this._isPageSwitched = Boolean(oldPage);
+          if (this._isPageSwitched) {
+            this.async(function() {
+              // The size of the header depends on the page, so reset the header's layout only when switching pages.
+              this.$.header.resetLayout();
+              // Update header styles for dynamic loading background image
+              this.$.header.updateStyles();
+            });
+          }
+        }
+      },
+
+      // Toggle function for lazy loaded drawer
+      _toggleDrawer: function() {
+        this._isDrawerOpened = !this._isDrawerOpened;
+      }
+
+    });
+  </script>
 
 </dom-module>

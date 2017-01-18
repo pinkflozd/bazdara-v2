@@ -1,0 +1,111 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="app-icons-weather.html">
+
+
+<dom-module id="app-widget-current">
+
+  <style include="pages-shared-styles">
+     :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    .vreme_zdaj1 {
+      display: block;
+      height: 128px;
+    }
+
+    .vreme_zdaj2 {
+      display: block;
+      margin-top: -128px;
+    }
+
+    .vreme {
+      font-weight: 300;
+      text-transform: uppercase;
+      font-size: 1em;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .temp {
+      font-weight: 300;
+      font-size: 3em
+    }
+
+    .temp2 {
+      font-weight: 300;
+      font-size: 0.8em
+    }
+
+    .trenutno {
+      height: 128px
+    }
+
+    .text {
+      padding: 15px
+    }
+
+    .veter {
+      padding: 16px 16px 16px 16px;
+      font-size: 24px;
+      font-weight: 400;
+      color: #000;
+      text-transform: capitalize;
+    }
+  </style>
+
+  <template>
+    <div class="veter">
+      [[trenutno.vreme.zdaj]]
+    </div>
+    <div class="row">
+      <div class="col-sm-6 trenutno">
+        <iron-icon icon$="[[trenutno.vreme.zdaj_slika_new]]:0" class="vreme_zdaj1"></iron-icon>
+        <iron-icon icon$="[[trenutno.vreme.zdaj_pojav_new]]:0" class="vreme_zdaj2"></iron-icon>
+      </div>
+      <div class="col-sm-6">
+        <div class="text">
+
+
+    <div class="temp">
+      [[live.temperatureAir]]<span class="text-muted temp2">°C</span>
+    </div>
+
+    <div class="vlaga">
+      [[trenutno.vlaga]]<span class="text-muted temp2">%</span>
+    </div>
+    </div>
+    </div>
+    </div>
+
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'app-widget-current',
+
+    properties: {
+
+      trenutno: {
+        type: Object,
+        notify: true
+      },
+      live: {
+        type: Object,
+        notify: true
+      },
+      datas: {
+        type: Object,
+        notify: true
+      }
+
+    },
+
+  });
+</script>
